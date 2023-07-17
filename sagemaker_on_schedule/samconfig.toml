@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+
+stack_name = "pricing-schedule"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-t15czzlf6cc7"
+s3_prefix = "pricing-schedule"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"

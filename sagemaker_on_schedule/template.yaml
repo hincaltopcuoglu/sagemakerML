@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sagemaker_on_schedule
+
+  Sample SAM Template for sagemaker_on_schedule
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+    MemorySize: 128
+
+Resources:
+  CallSagemakerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      CodeUri: call_sagemaker/
+      Runtime: python3.9
+      Timeout: 30
+      Policies: 
+        - AmazonSageMakerFullAccess
+        - Version: '2012-10-17' 
+          Statement:
+          - Effect: Allow
+            Action:
+              - sagemaker:InvokeEndpoint
+            Resource: '*'
+      Events:
+      
+        Schedule:
+          Type: ScheduleV2
+          Properties:
+            ScheduleExpression: rate(1 minute)
+
+      VpcConfig:
+        SecurityGroupIds: 
+          - sg-09202ec72
+        SubnetIds:
+          - subnet-01332f31 # write here your subnets
+          - subnet-03fa3275 # write here your subnets
+          
+
